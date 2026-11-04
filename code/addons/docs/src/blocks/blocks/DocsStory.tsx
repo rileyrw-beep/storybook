@@ -13,10 +13,12 @@ const DocsStoryImpl: FC<DocsStoryProps> = ({
   of,
   expanded = true,
   withToolbar: withToolbarProp = false,
-  __forceInitialArgs = false,
+  forceInitialArgs,
+  __forceInitialArgs,
   __primary = false,
 }) => {
   const { story } = useOf(of || 'story', ['story']);
+  const shouldForceInitialArgs = forceInitialArgs ?? __forceInitialArgs ?? false;
 
   // use withToolbar from parameters or default to true in autodocs
   const withToolbar = story.parameters.docs?.canvas?.withToolbar ?? withToolbarProp;
@@ -32,8 +34,8 @@ const DocsStoryImpl: FC<DocsStoryProps> = ({
       <Canvas
         of={of}
         withToolbar={withToolbar}
-        story={{ __forceInitialArgs, __primary }}
-        source={{ __forceInitialArgs }}
+        story={{ forceInitialArgs: shouldForceInitialArgs, __primary }}
+        source={{ forceInitialArgs: shouldForceInitialArgs }}
       />
     </Anchor>
   );

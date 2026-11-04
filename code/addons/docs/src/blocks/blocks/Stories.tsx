@@ -14,6 +14,8 @@ import type { DocsParameters } from '../../types.ts';
 interface StoriesProps {
   title?: ReactElement | string;
   includePrimary?: boolean;
+  /** Freeze stories to their initial args while they are shown in docs mode. */
+  forceInitialArgs?: boolean;
 }
 
 const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
@@ -32,7 +34,11 @@ const StyledHeading: typeof Heading = styled(Heading)(({ theme }) => ({
   },
 }));
 
-const StoriesImpl: FC<StoriesProps> = ({ title = 'Stories', includePrimary = true }) => {
+const StoriesImpl: FC<StoriesProps> = ({
+  title = 'Stories',
+  includePrimary = true,
+  forceInitialArgs = true,
+}) => {
   const { componentStories, projectAnnotations, getStoryContext } = useContext(DocsContext);
 
   let stories = componentStories();
@@ -67,7 +73,14 @@ const StoriesImpl: FC<StoriesProps> = ({ title = 'Stories', includePrimary = tru
       {typeof title === 'string' ? <StyledHeading>{title}</StyledHeading> : title}
       {stories.map(
         (story) =>
-          story && <DocsStory key={story.id} of={story.moduleExport} expanded __forceInitialArgs />
+          story && (
+            <DocsStory
+              key={story.id}
+              of={story.moduleExport}
+              expanded
+              forceInitialArgs={forceInitialArgs}
+            />
+          )
       )}
     </>
   );
