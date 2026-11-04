@@ -28,6 +28,12 @@ export const WithoutPrimary: Story = {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
 };
+export const LiveStories: Story = {
+  args: { forceInitialArgs: false },
+  parameters: {
+    relativeCsfPaths: ['../examples/Button.stories'],
+  },
+};
 export const DifferentToolbars: Story = {
   parameters: {
     relativeCsfPaths: ['../examples/StoriesParameters.stories'],

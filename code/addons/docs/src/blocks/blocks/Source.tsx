@@ -40,7 +40,9 @@ export type SourceProps = SourceParameters & {
    */
   of?: ModuleExport;
 
-  /** Internal prop to control if a story re-renders on args updates */
+  /** Freeze the story source to the initial args while shown in docs mode. */
+  forceInitialArgs?: boolean;
+  /** @deprecated Use `forceInitialArgs` instead. */
   __forceInitialArgs?: boolean;
 };
 
@@ -130,7 +132,8 @@ export const useSourceProps = (
 
   const storyContext = story ? docsContext.getStoryContext(story) : {};
 
-  const argsForSource = props.__forceInitialArgs
+  const shouldForceInitialArgs = props.forceInitialArgs ?? props.__forceInitialArgs ?? false;
+  const argsForSource = shouldForceInitialArgs
     ? storyContext.initialArgs
     : storyContext.unmappedArgs;
 
